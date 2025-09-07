@@ -43,7 +43,7 @@ func GetAllId(owner, repo, token string) ([]int, err.Context) {
 			return []int{}, err.NewContext(err2, "source is issue.GetAllId(string, string, string) ([]int64, err.Context)")
 		}
 		for _, issue := range issues {
-			result = append(result, int(issue.GetID()))
+			result = append(result, issue.GetNumber())
 		}
 		if resp.NextPage == 0 {
 			break
