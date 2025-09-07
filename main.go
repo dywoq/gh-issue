@@ -8,6 +8,19 @@ import (
 )
 
 func main() {
+	if len(os.Args) == 0 {
+		text := `
+		
+		
+		gh-issue: CLI tool to manage over GitHub issues
+		
+		The project's repository: https://github.com/dywoq/gh-issue
+
+		The syntax:
+		gh-issue <command-name> <args...>
+		`
+	}
+
 	a, err := args.New()
 	if !err.Nil() {
 		fmt.Printf("github.com/dywoq/gh-issue: error occurred: %v\n", err)
