@@ -15,9 +15,9 @@ type Args struct {
 func New() (*Args, err.Context) {
 	switch os.Args[1] {
 	case string(CommandGet):
-		return CommandProcessGet()
+		return CommandArgumentsGet()
 	case string(CommandDelete):
-		return CommandProcessGet()
+		return CommandArgumentsGet()
 	}
 	return nil, err.NoneContext()
 }

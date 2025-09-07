@@ -14,7 +14,7 @@ const (
 	CommandDelete Command = "delete"
 )
 
-func CommandProcessGet() (*Args, err.Context) {
+func CommandArgumentsGet() (*Args, err.Context) {
 	if len(os.Args) != 5 {
 		err2 := err.NoneContext()
 		err2.SetError(errors.New("github.com/dywoq/gh-issue/pkg/args: len(os.Args) is not 5"))
@@ -29,7 +29,7 @@ func CommandProcessGet() (*Args, err.Context) {
 	return args, err.NoneContext()
 }
 
-func CommandProcessDelete() (*Args, err.Context) {
+func CommandArgumentsDelete() (*Args, err.Context) {
 	if len(os.Args) != 5 {
 		err2 := err.NoneContext()
 		err2.SetError(errors.New("github.com/dywoq/gh-issue/pkg/args: len(os.Args) is not 5"))
