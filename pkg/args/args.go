@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/dywoq/dywoqlib/err"
+	"github.com/dywoq/dywoqlib/lib/err"
 )
 
 // Args is a struct presenting arguments of gh-issue program.

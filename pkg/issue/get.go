@@ -3,7 +3,7 @@ package issue
 import (
 	"errors"
 
-	"github.com/dywoq/dywoqlib/err"
+	"github.com/dywoq/dywoqlib/lib/err"
 	"github.com/google/go-github/v74/github"
 )
 
