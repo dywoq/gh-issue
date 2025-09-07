@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"sync"
 )
 
 // issueDelete deletes a GitHub issue using the REST API.
@@ -26,4 +27,15 @@ func issuesDelete(owner, repo string, id int, token string) error {
 		return fmt.Errorf("github.com/dywoq/gh-issue-deleter: unexpected status code: %d", resp.StatusCode)
 	}
 	return nil
+}
+
+func issuesWgDelete(owner, repo string, token string, id int, wg *sync.WaitGroup) {
+	defer wg.Done()
+
+	fmt.Printf("deleting %d issue in github.com/%s/%s repository...", id, owner, repo)
+	err := issuesDelete(owner, repo, id, token)
+	if err != nil {
+		fmt.Printf("failed to delete %d issue in github.com/%s/%s repository: %s", id, owner, repo, err.Error())
+	}
+	fmt.Printf("deleted %d issue in github.com/%s/%s repository... issue in github", id, owner, repo)
 }
