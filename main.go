@@ -8,17 +8,22 @@ import (
 )
 
 func main() {
-	if len(os.Args) == 0 {
+	if len(os.Args) < 2 {
 		text := `
-		
-		
 		gh-issue: CLI tool to manage over GitHub issues
-		
+
 		The project's repository: https://github.com/dywoq/gh-issue
 
 		The syntax:
 		gh-issue <command-name> <args...>
+
+		For example, this outputs all your GitHub repository issues in the console:
+		gh-issue get * <your-nickname> <your-repository> <your-token>
+
+		The project is licensed under Apache License 2.0, see https://github.com/dywoq/gh-issue/blob/main/LICENSE
 		`
+		fmt.Println(text)
+		os.Exit(0)
 	}
 
 	a, err := args.New()
