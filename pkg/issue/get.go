@@ -19,5 +19,5 @@ func Get(owner, repo, token string, id int) (*github.Issue, err.Context) {
 	if err2 != nil {
 		return nil, err.NewContext(err2, "source is issue.Get(string, string, string, int) (*github.Issue, err.Context)")
 	}
-	return issue, nil
+	return issue, err.NoneContext()
 }

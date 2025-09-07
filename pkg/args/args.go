@@ -35,7 +35,7 @@ func New() (*Args, err.Context) {
 	args.Owner = os.Args[2]
 	args.Repository = os.Args[3]
 	args.Token = os.Args[4]
-	return args, nil
+	return args, err.NoneContext()
 }
 
 func issuesFormat(arg string) ([]int64, err.Context) {
@@ -51,5 +51,5 @@ func issuesFormat(arg string) ([]int64, err.Context) {
 		}
 		ids = append(ids, int64(id))
 	}
-	return ids, nil
+	return ids, err.NoneContext()
 }
