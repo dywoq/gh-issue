@@ -87,3 +87,16 @@ func getDate(i *github.Issue) string {
 	}
 	return fmt.Sprintf("[Created: %v, Updated: %v, Closed: %v]", colorizeStringBold(created), colorizeStringBold(updated), colorizeStringBold(closed))
 }
+
+func getState(i *github.Issue) string {
+	if i == nil || i.State == nil {
+		return "<empty>"
+	}
+	switch *i.State {
+	case "closed":
+		return "Closed ✔️"
+	case "open":
+		return "Opened ❇️"
+	}
+	return "<empty>"
+}

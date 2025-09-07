@@ -32,6 +32,7 @@ func outputIssue(i *github.Issue) {
 	}
 	fmt.Println("Retrieved issue: {")
 	fmt.Printf("	Title: %v\n", getTitle(i))
+	fmt.Printf("	State: %v\n", getState(i))
 	fmt.Printf("	Labels: %v\n", container.FormattableSlice[string](getLabels(i)))
 	fmt.Printf("	Milestone: %v\n", getMilestone(i))
 	fmt.Printf("	Assignees: %v\n", container.FormattableSlice[string](getAssignees(i)))
