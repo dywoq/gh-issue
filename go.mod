@@ -1,4 +1,4 @@
-module github.com/dywoq/gh-issue-deleter
+module github.com/dywoq/gh-issue
 
 go 1.25.0
 
