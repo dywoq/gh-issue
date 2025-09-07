@@ -28,7 +28,7 @@ func getLabels(i *github.Issue) []string {
 	labels := []string{}
 	for _, label := range i.Labels {
 		if label.Name != nil {
-			labels = append(labels, *label.Name)
+			labels = append(labels, colorizeStringHex(*label.Color, *label.Name))
 		}
 	}
 	return labels
