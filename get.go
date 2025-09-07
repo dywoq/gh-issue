@@ -60,16 +60,16 @@ func getFormattedMarkdownBody(i *github.Issue) string {
 
 func getTitle(i *github.Issue) string {
 	if i == nil {
-		return "<empty>"
+		return colorizeStringItalic("<empty>")
 	}
-	return *i.Title
+	return colorizeStringItalic(*i.Title)
 }
 
 func getMilestone(i *github.Issue) string {
 	if i == nil || i.Milestone == nil {
-		return "<empty>"
+		return colorizeStringItalic("<empty>")
 	}
-	return *i.Milestone.Title
+	return colorizeStringItalic(*i.Milestone.Title)
 }
 
 func getDate(i *github.Issue) string {
@@ -85,5 +85,5 @@ func getDate(i *github.Issue) string {
 	if i.ClosedAt != nil {
 		closed = i.ClosedAt.String()
 	}
-	return fmt.Sprintf("[Created: %v, Updated: %v, Closed: %v]", created, updated, closed)
+	return fmt.Sprintf("[Created: %v, Updated: %v, Closed: %v]", colorizeStringBold(created), colorizeStringBold(updated), colorizeStringBold(closed))
 }

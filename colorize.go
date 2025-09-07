@@ -29,3 +29,11 @@ func colorizeStringHex(hex, str string) string {
 	c := color.RGB(int(r), int(g), int(b))
 	return c.SprintFunc()(str)
 }
+
+func colorizeStringItalic(str string) string {
+	return color.New(color.Italic).SprintFunc()(str)
+}
+
+func colorizeStringBold(str string) string {
+	return color.New(color.Bold).SprintFunc()(str)
+}
