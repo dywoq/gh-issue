@@ -18,7 +18,7 @@ func CommandArgumentsGet() (*Args, err.Context) {
 	if len(os.Args) != 5 {
 		err2 := err.NoneContext()
 		err2.SetError(errors.New("github.com/dywoq/gh-issue/pkg/args: len(os.Args) is not 5"))
-		err2.SetMore("source is args.CommandProcessGet() (*Args, err.Context)")
+		err2.SetMore("source is args.CommandArgumentsGet() (*Args, err.Context)")
 		return nil, err2
 	}
 	args := &Args{}
@@ -33,7 +33,7 @@ func CommandArgumentsDelete() (*Args, err.Context) {
 	if len(os.Args) != 5 {
 		err2 := err.NoneContext()
 		err2.SetError(errors.New("github.com/dywoq/gh-issue/pkg/args: len(os.Args) is not 5"))
-		err2.SetMore("source is args.CommandProcessDelete() (*Args, err.Context)")
+		err2.SetMore("source is args.CommandArgumentsDelete() (*Args, err.Context)")
 		return nil, err2
 	}
 	args := &Args{}
