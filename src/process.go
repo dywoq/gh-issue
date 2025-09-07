@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/dywoq/dywoqlib/lib/container"
-	"github.com/dywoq/dywoqlib/lib/err"
+	"github.com/dywoq/dywoqlib/container"
+	"github.com/dywoq/dywoqlib/err"
 	"github.com/dywoq/gh-issue/pkg/args"
 	"github.com/dywoq/gh-issue/pkg/issue"
 	"github.com/google/go-github/v74/github"

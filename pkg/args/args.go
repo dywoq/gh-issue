@@ -1,7 +1,7 @@
 package args
 
 import (
-	"github.com/dywoq/dywoqlib/lib/err"
+	"github.com/dywoq/dywoqlib/err"
 	"os"
 )
 

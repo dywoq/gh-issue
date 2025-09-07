@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/dywoq/dywoqlib/lib/err"
+	"github.com/dywoq/dywoqlib/err"
 )
 
 func FormatToIntSlice(arg string) ([]int, err.Context) {

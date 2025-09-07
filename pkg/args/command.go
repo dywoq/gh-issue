@@ -4,7 +4,7 @@ import (
 	"errors"
 	"os"
 
-	"github.com/dywoq/dywoqlib/lib/err"
+	"github.com/dywoq/dywoqlib/err"
 )
 
 type Command string

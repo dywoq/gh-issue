@@ -3,13 +3,13 @@ module github.com/dywoq/gh-issue
 go 1.25.0
 
 require (
-	github.com/dywoq/dywoqlib/lib v0.0.0-20250906161545-f8a3ff42e287
+	github.com/MichaelMure/go-term-markdown v0.1.4
+	github.com/dywoq/dywoqlib v1.1.3
 	github.com/google/go-github/v74 v74.0.0
 	golang.org/x/oauth2 v0.30.0
 )
 
 require (
-	github.com/MichaelMure/go-term-markdown v0.1.4 // indirect
 	github.com/MichaelMure/go-term-text v0.3.1 // indirect
 	github.com/alecthomas/chroma v0.7.1 // indirect
 	github.com/danwakefield/fnmatch v0.0.0-20160403171240-cbb64ac3d964 // indirect
