@@ -16,8 +16,8 @@ func New() (*Args, err.Context) {
 	switch os.Args[1] {
 	case string(CommandGet):
 		return CommandArgumentsGet()
-	case string(CommandDelete):
-		return CommandArgumentsDelete()
+	case string(CommandClose):
+		return CommandArgumentsClose()
 	}
 	return nil, err.NoneContext()
 }

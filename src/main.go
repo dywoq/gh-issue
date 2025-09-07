@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/dywoq/dywoqlib/lib/attribute"
 	"github.com/dywoq/gh-issue/pkg/args"
 )
 
@@ -28,8 +27,24 @@ func main() {
 			os.Exit(1)
 		}
 		os.Exit(0)
-	case args.CommandDelete:
-		attribute.Todo(nil)
+	case args.CommandClose:
+		choice := ""
+
+		fmt.Println("are you sure to close the chosen issues? [y: Yes, n: No]")
+		fmt.Print("> ")
+
+		_, err := fmt.Scanf("%s", &choice)
+		if err != nil {
+			fmt.Printf("github.com/dywoq/gh-issue: error occurred: %v", err)
+		}
+
+		if choice == "y" {
+			err := processClose(a)
+			if !err.Nil() {
+				fmt.Printf("github.com/dywoq/gh-issue: error occurred: %v", err)
+				os.Exit(1)
+			}
+		}
 		os.Exit(0)
 	}
 }

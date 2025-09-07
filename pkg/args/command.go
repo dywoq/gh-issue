@@ -10,8 +10,8 @@ import (
 type Command string
 
 const (
-	CommandGet    Command = "get"
-	CommandDelete Command = "delete"
+	CommandGet   Command = "get"
+	CommandClose Command = "close"
 )
 
 func CommandArgumentsGet() (*Args, err.Context) {
@@ -32,7 +32,7 @@ func CommandArgumentsGet() (*Args, err.Context) {
 	return args, err.NoneContext()
 }
 
-func CommandArgumentsDelete() (*Args, err.Context) {
+func CommandArgumentsClose() (*Args, err.Context) {
 	if len(os.Args) != 6 {
 		err2 := err.NoneContext()
 		err2.SetError(errors.New("github.com/dywoq/gh-issue/pkg/args: len(os.Args) is not 5"))
@@ -40,7 +40,7 @@ func CommandArgumentsDelete() (*Args, err.Context) {
 		return nil, err2
 	}
 	args := &Args{
-		CommandDelete,
+		CommandClose,
 		make([]any, 6),
 	}
 	args.Args[2] = os.Args[2] // issue ids
