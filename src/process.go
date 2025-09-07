@@ -22,18 +22,11 @@ func outputIssue(i *github.Issue) {
 	fmt.Printf("	Milestone: %v\n", getMilestone(i))
 	fmt.Printf("	Assignees: %v\n", container.FormattableSlice[string](getAssignees(i)))
 	fmt.Printf("    Date: %v\n", getDate(i))
-	fmt.Printf("	Body: %v\n", getFormattedMarkdownBody(i))
+	fmt.Printf("	Body:\n%v\n", getFormattedMarkdownBody(i))
 	fmt.Println("}")
 }
 
 func processGet(a *args.Args) err.Context {
-	if a.Args[1] != args.CommandGet {
-		return err.NewContext(
-			errors.New("github.com/dywoq/gh-issue: wrong command, expected args.CommandGet"),
-			"source is process.go: processGet(*args.Args) err.Context",
-		)
-	}
-
 	failedTypeAssertion := err.NewContext(
 		errors.New("github.com/dywoq/gh-issue: failed type assertion"),
 		"source is process.go: processGet(*args.Args) err.Context",
@@ -87,18 +80,18 @@ func processGet(a *args.Args) err.Context {
 
 func issueCloseAsync(wg *sync.WaitGroup, errch chan error, owner, repo, token string, id int) {
 	defer wg.Done()
-	fmt.Printf("deleting github issue %d in %s/%s repository...\n", id, owner, repo)
+	fmt.Printf("closing github issue %d in %s/%s repository...\n", id, owner, repo)
 	err2 := issue.Close(owner, repo, token, id)
 	if !err2.Nil() {
 		errch <- err2.Error()
-		fmt.Printf("failed deleting github issue %d in %s/%s repository\n", id, owner, repo)
+		fmt.Printf("failed closing github issue %d in %s/%s repository\n", id, owner, repo)
 	}
 }
 
 func processClose(a *args.Args) err.Context {
 	failedTypeAssertion := err.NewContext(
 		errors.New("github.com/dywoq/gh-issue: failed type assertion"),
-		"source is process.go: processDelete(*args.Args) err.Context",
+		"source is process.go: processClose(*args.Args) err.Context",
 	)
 
 	ids := a.Args[2]
@@ -150,7 +143,7 @@ func processClose(a *args.Args) err.Context {
 	if err2, ok := <-errch; ok {
 		return err.NewContext(
 			err2,
-			"source is process.go: processDelete(*args.Args) err.Context",
+			"source is process.go: processClose(*args.Args) err.Context",
 		)
 	}
 
