@@ -21,7 +21,7 @@ func getLabels(i *github.Issue) []string {
 }
 
 func getAssignees(i *github.Issue) []string {
-	if i == nil || i.Labels == nil {
+	if i == nil || i.Assignees == nil {
 		return []string{}
 	}
 	assignees := []string{}
