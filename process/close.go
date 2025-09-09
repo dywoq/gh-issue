@@ -59,6 +59,18 @@ func Close(a *args.Args) err.Context {
 		for _, id := range ids {
 			go asyncClose(owner, repo, token, id, &wg, errch)
 		}
+
+	default:
+		ids, err2 := issue.FormatToIntSlice(ids.(string))
+		if !err2.Nil() {
+			return err2
+		}
+		
+		wg.Add(len(ids))
+
+		for _, id := range ids {
+			go asyncClose(owner, repo, token, id, &wg, errch)
+		}
 	}
 
 	wg.Wait()
