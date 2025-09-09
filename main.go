@@ -64,6 +64,21 @@ func main() {
 		args.CommandGet: func() err.Context {
 			return process.Get(a)
 		},
+
+		args.CommandClose: func() err.Context {
+			choice := ""
+
+			fmt.Printf("are you sure to delete the chosen issues? [y: Yes, n: No]:\n>> ")
+			
+			_, err1 := fmt.Scanf("%s", &choice)
+			if err1 != nil {
+				return err.NewContext(err1, "source is main.commands[ags.CommandClose]func() err.Context") 
+			}
+			if choice == "y" {
+				return process.Close(a)
+			}
+			return err.NoneContext()
+		},
 	}
 
 	for cmd, f := range commands {

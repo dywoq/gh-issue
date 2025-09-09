@@ -31,7 +31,7 @@ func outputIssue(i *github.Issue) {
 func Get(a *args.Args) err.Context {
 	failedTypeAssertion := err.NewContext(
 		errors.New("github.com/dywoq/gh-issue: failed type assertion"),
-		"source is process.go: processGet(*args.Args) err.Context",
+		"source is process.go: process.Get(*args.Args) err.Context",
 	)
 
 	ids := a.Args[2]
