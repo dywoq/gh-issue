@@ -79,6 +79,10 @@ func main() {
 			}
 			return err.NoneContext()
 		},
+
+		args.CommandGenerateMd: func() err.Context {
+			return process.GenerateMd(a)
+		},
 	}
 
 	for cmd, f := range commands {

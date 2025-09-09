@@ -1,0 +1,108 @@
+package process
+
+import (
+	"bufio"
+	"errors"
+	"fmt"
+	"os"
+	"strings"
+
+	"github.com/dywoq/dywoqlib/container"
+	"github.com/dywoq/dywoqlib/err"
+	"github.com/dywoq/gh-issue/args"
+	"github.com/dywoq/gh-issue/get"
+	"github.com/dywoq/gh-issue/issue"
+	"github.com/google/go-github/v74/github"
+)
+
+func convertIssueToMarkdown(issue *github.Issue, b *strings.Builder) {
+	if issue == nil {
+		return
+	}
+	m := get.Markdown{Issue: issue}
+	fmt.Fprintf(b, "# %s - %d\n", m.Title(), *m.Issue.Number)
+	fmt.Fprintf(b, "- **State**: %s\n", m.State())
+	fmt.Fprintf(b, "- **Labels**: %v\n", container.FormattableSlice[string](m.Labels()))
+	fmt.Fprintf(b, "- **Milestone**: %v\n", m.Milestone())
+	fmt.Fprintf(b, "- **Assignees**: %v\n", container.FormattableSlice[string](m.Assignees()))
+	fmt.Fprintf(b, "- **Date**: %v\n", m.Date())
+	fmt.Fprintln(b)
+	fmt.Fprintf(b, "%s", m.Body())
+	fmt.Fprintln(b)
+	fmt.Fprintln(b, "<br>")
+	fmt.Fprintln(b)
+}
+
+func GenerateMd(a *args.Args) err.Context {
+	failedTypeAssertion := err.NewContext(
+		errors.New("github.com/dywoq/gh-issue: failed type assertion"),
+		"source is process.GenerateMd(*args.Args) err.Context",
+	)
+
+	ids := a.Args[2]
+	owner, ok := a.Args[3].(string)
+	if !ok {
+		return failedTypeAssertion
+	}
+	repo, ok := a.Args[4].(string)
+	if !ok {
+		return failedTypeAssertion
+	}
+	token, ok := a.Args[5].(string)
+	if !ok {
+		return failedTypeAssertion
+	}
+	filename, ok := a.Args[6].(string)
+	if !ok {
+		return failedTypeAssertion
+	}
+
+	var b strings.Builder
+	switch ids {
+	case "*":
+		issuesIds, err2 := issue.GetAllId(owner, repo, token)
+		if !err2.Nil() {
+			return err2
+		}
+		issues, err2 := issuesGetFromIds(owner, repo, token, issuesIds)
+		if !err2.Nil() {
+			return err2
+		}
+		for _, issue := range issues {
+			convertIssueToMarkdown(issue, &b)
+		}
+	default:
+		issuesIds, err2 := issue.FormatToIntSlice(ids.(string))
+		if !err2.Nil() {
+			return err2
+		}
+		issues, err2 := issuesGetFromIds(owner, repo, token, issuesIds)
+		if !err2.Nil() {
+			return err2
+		}
+		for _, issue := range issues {
+			convertIssueToMarkdown(issue, &b)
+		}
+	}
+
+	chosenFilename := fmt.Sprintf("./%s/%s issues.md", owner, repo)
+	if filename != "gh.issue.default" {
+		chosenFilename = filename
+	}
+
+	file, err1 := os.Create(chosenFilename)
+	if err1 != nil {
+		return err.NewContext(err1, "source is process.GenerateMd(*args.Args) err.Context")
+	}
+	defer file.Close()
+
+	w := bufio.NewWriter(file)
+	defer w.Flush()
+
+	_, err1 = w.WriteString(b.String())
+	if err1 != nil {
+		return err.NewContext(err1, "source is process.GenerateMd(*args.Args) err.Context")
+	}
+
+	return err.NoneContext()
+}
