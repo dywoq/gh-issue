@@ -34,7 +34,7 @@ func outputError(err err.Context) {
 func main() {
 	if len(os.Args) < 2 {
 		text := `
-		gh-issue: CLI tool to manage over GitHub issues
+		gh-issue: CLI tool to manage over GitHub issues - v1.2.1
 
 		The project's repository: https://github.com/dywoq/gh-issue
 
