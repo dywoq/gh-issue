@@ -18,8 +18,18 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/dywoq/gh-issue/pkg/args"
+	"github.com/dywoq/dywoqlib/err"
+	"github.com/dywoq/gh-issue/args"
+	"github.com/dywoq/gh-issue/process"
 )
+
+func outputError(err err.Context) {
+	if err.Nil() {
+		return
+	}
+	fmt.Printf("github.com/dywoq/gh-issue: error occurred: %v\n", err)
+	os.Exit(1)
+}
 
 func main() {
 	if len(os.Args) < 2 {
@@ -40,10 +50,9 @@ func main() {
 		os.Exit(0)
 	}
 
-	a, err := args.New()
-	if !err.Nil() {
-		fmt.Printf("github.com/dywoq/gh-issue: error occurred: %v\n", err)
-		os.Exit(1)
+	a, err2 := args.New()
+	if !err2.Nil() {
+		outputError(err2)
 	}
 
 	if a == nil {
@@ -51,32 +60,18 @@ func main() {
 		os.Exit(1)
 	}
 
-	switch a.Command {
-	case args.CommandGet:
-		err := processGet(a)
-		if !err.Nil() {
-			fmt.Printf("github.com/dywoq/gh-issue: error occurred: %v\n", err)
-			os.Exit(1)
-		}
-		os.Exit(0)
-	case args.CommandClose:
-		choice := ""
+	commands := map[args.Command]func() err.Context{
+		args.CommandGet: func() err.Context {
+			return process.Get(a)
+		},
+	}
 
-		fmt.Println("are you sure to close the chosen issues? [y: Yes, n: No]")
-		fmt.Print("> ")
-
-		_, err := fmt.Scanf("%s", &choice)
-		if err != nil {
-			fmt.Printf("github.com/dywoq/gh-issue: error occurred: %v\n", err)
-		}
-
-		if choice == "y" {
-			err := processClose(a)
-			if !err.Nil() {
-				fmt.Printf("github.com/dywoq/gh-issue: error occurred: %v\n", err)
-				os.Exit(1)
+	for cmd, f := range commands {
+		if a.Command == cmd {
+			err2 := f()
+			if !err2.Nil() {
+				outputError(err2)
 			}
 		}
-		os.Exit(0)
 	}
 }

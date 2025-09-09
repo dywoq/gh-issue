@@ -40,6 +40,8 @@ func New() (*Args, err.Context) {
 		return CommandArgumentsGet()
 	case string(CommandClose):
 		return CommandArgumentsClose()
+	case string(CommandGenerateMd):
+		return CommandArgumentsGenerateMd()
 	}
 	return nil, err.NoneContext()
 }

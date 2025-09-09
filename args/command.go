@@ -24,14 +24,15 @@ import (
 type Command string
 
 const (
-	CommandGet   Command = "get"
-	CommandClose Command = "close"
+	CommandGet        Command = "get"
+	CommandClose      Command = "close"
+	CommandGenerateMd Command = "generate-md"
 )
 
 func CommandArgumentsGet() (*Args, err.Context) {
 	if len(os.Args) != 6 {
 		err2 := err.NoneContext()
-		err2.SetError(errors.New("github.com/dywoq/gh-issue/pkg/args: len(os.Args) is not 5"))
+		err2.SetError(errors.New("github.com/dywoq/gh-issue/pkg/args: len(os.Args) is not 6"))
 		err2.SetMore("source is args.CommandArgumentsGet() (*Args, err.Context)")
 		return nil, err2
 	}
@@ -49,8 +50,8 @@ func CommandArgumentsGet() (*Args, err.Context) {
 func CommandArgumentsClose() (*Args, err.Context) {
 	if len(os.Args) != 6 {
 		err2 := err.NoneContext()
-		err2.SetError(errors.New("github.com/dywoq/gh-issue/pkg/args: len(os.Args) is not 5"))
-		err2.SetMore("source is args.CommandArgumentsDelete() (*Args, err.Context)")
+		err2.SetError(errors.New("github.com/dywoq/gh-issue/pkg/args: len(os.Args) is not 6"))
+		err2.SetMore("source is args.CommandArgumentsClose() (*Args, err.Context)")
 		return nil, err2
 	}
 	args := &Args{
@@ -61,5 +62,24 @@ func CommandArgumentsClose() (*Args, err.Context) {
 	args.Args[3] = os.Args[3] // owner
 	args.Args[4] = os.Args[4] // repository
 	args.Args[5] = os.Args[5] // token
+	return args, err.NoneContext()
+}
+
+func CommandArgumentsGenerateMd() (*Args, err.Context) {
+	if len(os.Args) != 7 {
+		err2 := err.NoneContext()
+		err2.SetError(errors.New("github.com/dywoq/gh-issue/pkg/args: len(os.Args) is not 7"))
+		err2.SetMore("source is args.CommandArgumentsGenerateMd() (*Args, err.Context)")
+		return nil, err2
+	}
+	args := &Args{
+		CommandGenerateMd,
+		make([]any, 7),
+	}
+	args.Args[2] = os.Args[2] // issue ids
+	args.Args[3] = os.Args[3] // owner
+	args.Args[4] = os.Args[4] // repository
+	args.Args[5] = os.Args[5] // token
+	args.Args[6] = os.Args[6] // filename
 	return args, err.NoneContext()
 }
