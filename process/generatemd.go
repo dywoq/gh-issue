@@ -85,7 +85,7 @@ func GenerateMd(a *args.Args) err.Context {
 		}
 	}
 
-	chosenFilename := fmt.Sprintf("./%s/%s issues.md", owner, repo)
+	chosenFilename := fmt.Sprintf("./%s.%s-issues.md", owner, repo)
 	if filename != "gh.issue.default" {
 		chosenFilename = filename
 	}

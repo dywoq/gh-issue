@@ -4,7 +4,9 @@ go 1.25.0
 
 require (
 	github.com/MichaelMure/go-term-markdown v0.1.4
+	github.com/crazy3lf/colorconv v1.2.0
 	github.com/dywoq/dywoqlib v1.1.3
+	github.com/fatih/color v1.18.0
 	github.com/google/go-github/v74 v74.0.0
 	golang.org/x/oauth2 v0.30.0
 )
@@ -12,12 +14,10 @@ require (
 require (
 	github.com/MichaelMure/go-term-text v0.3.1 // indirect
 	github.com/alecthomas/chroma v0.7.1 // indirect
-	github.com/crazy3lf/colorconv v1.2.0 // indirect
 	github.com/danwakefield/fnmatch v0.0.0-20160403171240-cbb64ac3d964 // indirect
 	github.com/disintegration/imaging v1.6.2 // indirect
 	github.com/dlclark/regexp2 v1.1.6 // indirect
 	github.com/eliukblau/pixterm/pkg/ansimage v0.0.0-20191210081756-9fb6cf8c2f75 // indirect
-	github.com/fatih/color v1.18.0 // indirect
 	github.com/gomarkdown/markdown v0.0.0-20191123064959-2c17d62f5098 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/kyokomi/emoji/v2 v2.2.8 // indirect

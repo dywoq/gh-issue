@@ -31,5 +31,5 @@ into console.
 ```
 gh-issue generate-md <issues-ids> <owner-username> <name> <token> <filename>
 ```	
-Filename can be set to "gh.issue.default", then the filename will be set to ```<owner>/<repo> issues.md```.
+Filename can be set to "gh.issue.default", then the filename will be set to ```<owner>.<repo>-issues.md```.
 In `<issues-ids>`, you can use wildcard `*` to select all issues, or as list (ex. `[2, 3, 4]`)
