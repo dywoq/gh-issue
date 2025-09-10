@@ -123,11 +123,14 @@ func GenerateMdConfig(a *args.Args) err.Context {
 		errors.New("github.com/dywoq/gh-issue: failed type assertion"),
 		"source is process.GenerateMdConfig(*args.Args) err.Context",
 	)
-	ids := a.Args[2]
-	configPath, ok := a.Args[3].(string)
+	
+	configPath, ok := a.Args[2].(string)
 	if !ok {
 		return failedTypeAssertion
 	}
+	
+	ids := a.Args[3]
+
 	filename, ok := a.Args[4].(string)
 	if !ok {
 		return failedTypeAssertion
