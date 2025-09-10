@@ -31,26 +31,7 @@ func outputIssue(i *github.Issue) {
 	fmt.Println("}")
 }
 
-func Get(a *args.Args) err.Context {
-	failedTypeAssertion := err.NewContext(
-		errors.New("github.com/dywoq/gh-issue: failed type assertion"),
-		"source is process.go: process.Get(*args.Args) err.Context",
-	)
-
-	ids := a.Args[2]
-	owner, ok := a.Args[3].(string)
-	if !ok {
-		return failedTypeAssertion
-	}
-	repo, ok := a.Args[4].(string)
-	if !ok {
-		return failedTypeAssertion
-	}
-	token, ok := a.Args[5].(string)
-	if !ok {
-		return failedTypeAssertion
-	}
-
+func getBase(ids any, owner, repo, token string) err.Context {
 	switch ids {
 	// if ids is wildcard
 	case "*":
@@ -83,23 +64,41 @@ func Get(a *args.Args) err.Context {
 	return err.NoneContext()
 }
 
+func Get(a *args.Args) err.Context {
+	failedTypeAssertion := err.NewContext(
+		errors.New("github.com/dywoq/gh-issue: failed type assertion"),
+		"source is process.go: process.Get(*args.Args) err.Context",
+	)
+	ids := a.Args[2]
+	owner, ok := a.Args[3].(string)
+	if !ok {
+		return failedTypeAssertion
+	}
+	repo, ok := a.Args[4].(string)
+	if !ok {
+		return failedTypeAssertion
+	}
+	token, ok := a.Args[5].(string)
+	if !ok {
+		return failedTypeAssertion
+	}
+	return getBase(ids, owner, repo, token)
+}
+
 func GetConfig(a *args.Args) err.Context {
 	failedTypeAssertion := err.NewContext(
 		errors.New("github.com/dywoq/gh-issue: failed type assertion"),
 		"source is process.GetConfig(*args.Args) err.Context",
 	)
-
 	ids := a.Args[2]
 	configPath, ok := a.Args[3].(string)
 	if !ok {
 		return failedTypeAssertion
 	}
-
 	gotData, err1 := os.ReadFile(configPath)
 	if err1 != nil {
 		return err.NewContext(err1, "source is process.GetConfig(*args.Args) err.Context")
 	}
-
 	var (
 		d    = json.NewDecoder(strings.NewReader(string(gotData)))
 		conf config
@@ -108,34 +107,5 @@ func GetConfig(a *args.Args) err.Context {
 	if err1 != nil {
 		return err.NewContext(err1, "source is process.GetConfig(*args.Args) err.Context")
 	}
-
-	switch ids {
-	case "*":
-		gotIds, err2 := issue.GetAllId(conf.Owner, conf.Repository, conf.Token)
-		if !err2.Nil() {
-			return err2
-		}
-		for _, elem := range gotIds {
-			i, err2 := issue.Get(conf.Owner, conf.Repository, conf.Token, elem)
-			if !err2.Nil() {
-				return err2
-			}
-			outputIssue(i)
-		}
-
-	default:
-		formattedIds, err2 := issue.FormatToIntSlice(ids.(string))
-		if !err2.Nil() {
-			return err2
-		}
-		for _, formattedId := range formattedIds {
-			i, err2 := issue.Get(conf.Owner, conf.Repository, conf.Token, formattedId)
-			if !err2.Nil() {
-				return err2
-			}
-			outputIssue(i)
-		}
-	}
-
-	return err.NoneContext()
+	return getBase(ids, conf.Owner, conf.Repository, conf.Token)
 }
