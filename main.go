@@ -80,6 +80,18 @@ func main() {
 			}
 			return err.NoneContext()
 		},
+		args.CommandCloseConfig: func() err.Context {
+			choice := ""
+			fmt.Printf("are you sure to close the chosen issues? [y: Yes, n: No]:\n>> ")
+			_, err1 := fmt.Scanf("%s", &choice)
+			if err1 != nil {
+				return err.NewContext(err1, "source is main.commands[ags.CommandClose]func() err.Context")
+			}
+			if choice == "y" {
+				return process.CloseConfig(a)
+			}
+			return err.NoneContext()
+		},
 
 		args.CommandGenerateMd: func() err.Context {
 			return process.GenerateMd(a)

@@ -22,26 +22,7 @@ func asyncClose(owner, repo, token string, id int, wg *sync.WaitGroup, errch cha
 	fmt.Printf("closed https://github.com/%s/%s/issues/%d issue\n", owner, repo, id)
 }
 
-func Close(a *args.Args) err.Context {
-	failedTypeAssertion := err.NewContext(
-		errors.New("github.com/dywoq/gh-issue: failed type assertion"),
-		"source is process.go: process.Close(*args.Args) err.Context",
-	)
-
-	ids := a.Args[2]
-	owner, ok := a.Args[3].(string)
-	if !ok {
-		return failedTypeAssertion
-	}
-	repo, ok := a.Args[4].(string)
-	if !ok {
-		return failedTypeAssertion
-	}
-	token, ok := a.Args[5].(string)
-	if !ok {
-		return failedTypeAssertion
-	}
-
+func closeBase(ids any, owner, repo, token string) err.Context {
 	var (
 		errch = make(chan err.Context, 1)
 		wg    = sync.WaitGroup{}
@@ -65,7 +46,7 @@ func Close(a *args.Args) err.Context {
 		if !err2.Nil() {
 			return err2
 		}
-		
+
 		wg.Add(len(ids))
 
 		for _, id := range ids {
@@ -83,4 +64,43 @@ func Close(a *args.Args) err.Context {
 	}
 
 	return err.NoneContext()
+}
+
+func Close(a *args.Args) err.Context {
+	failedTypeAssertion := err.NewContext(
+		errors.New("github.com/dywoq/gh-issue: failed type assertion"),
+		"source is process.go: process.Close(*args.Args) err.Context",
+	)
+
+	ids := a.Args[2]
+	owner, ok := a.Args[3].(string)
+	if !ok {
+		return failedTypeAssertion
+	}
+	repo, ok := a.Args[4].(string)
+	if !ok {
+		return failedTypeAssertion
+	}
+	token, ok := a.Args[5].(string)
+	if !ok {
+		return failedTypeAssertion
+	}
+	return closeBase(ids, owner, repo, token)
+}
+
+func CloseConfig(a *args.Args) err.Context {
+	failedTypeAssertion := err.NewContext(
+		errors.New("github.com/dywoq/gh-issue: failed type assertion"),
+		"source is process.go: process.CloseConfig(*args.Args) err.Context",
+	)
+	ids := a.Args[2]
+	configPath, ok := a.Args[3].(string)
+	if !ok {
+		return failedTypeAssertion
+	}
+	conf, err2 := newConfig(configPath)
+	if !err2.Nil() {
+		return err2
+	}
+	return closeBase(ids, conf.Owner, conf.Repository, conf.Token)
 }

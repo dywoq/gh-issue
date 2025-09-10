@@ -27,7 +27,8 @@ const (
 	CommandGet       Command = "get"
 	CommandGetConfig Command = "get-config"
 
-	CommandClose Command = "close"
+	CommandClose       Command = "close"
+	CommandCloseConfig Command = "close-config"
 
 	CommandGenerateMd       Command = "generate-md"
 	CommandGenerateMdConfig Command = "generate-md-config"
@@ -66,6 +67,22 @@ func CommandArgumentsClose() (*Args, err.Context) {
 	args.Args[3] = os.Args[3] // owner
 	args.Args[4] = os.Args[4] // repository
 	args.Args[5] = os.Args[5] // token
+	return args, err.NoneContext()
+}
+
+func CommandArgumentsCloseConfig() (*Args, err.Context) {
+	if len(os.Args) != 4 {
+		err2 := err.NoneContext()
+		err2.SetError(errors.New("github.com/dywoq/gh-issue/pkg/args: len(os.Args) is not 4"))
+		err2.SetMore("source is args.CommandArgumentsCloseConfig() (*Args, err.Context)")
+		return nil, err2
+	}
+	args := &Args{
+		CommandCloseConfig,
+		make([]any, 4),
+	}
+	args.Args[2] = os.Args[2] // issue ids
+	args.Args[3] = os.Args[3] // config
 	return args, err.NoneContext()
 }
 

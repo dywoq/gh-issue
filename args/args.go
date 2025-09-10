@@ -43,6 +43,8 @@ func New() (*Args, err.Context) {
 
 	case string(CommandClose):
 		return CommandArgumentsClose()
+	case string(CommandCloseConfig):
+		return CommandArgumentsCloseConfig()
 
 	case string(CommandGenerateMd):
 		return CommandArgumentsGenerateMd()
