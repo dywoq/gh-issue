@@ -1,8 +1,11 @@
 package process
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
+	"os"
+	"strings"
 
 	"github.com/dywoq/dywoqlib/container"
 	"github.com/dywoq/dywoqlib/err"
@@ -77,5 +80,62 @@ func Get(a *args.Args) err.Context {
 			outputIssue(i)
 		}
 	}
+	return err.NoneContext()
+}
+
+func GetConfig(a *args.Args) err.Context {
+	failedTypeAssertion := err.NewContext(
+		errors.New("github.com/dywoq/gh-issue: failed type assertion"),
+		"source is process.GetConfig(*args.Args) err.Context",
+	)
+
+	ids := a.Args[2]
+	configPath, ok := a.Args[3].(string)
+	if !ok {
+		return failedTypeAssertion
+	}
+
+	gotData, err1 := os.ReadFile(configPath)
+	if err1 != nil {
+		return err.NewContext(err1, "source is process.GetConfig(*args.Args) err.Context")
+	}
+
+	var (
+		d    = json.NewDecoder(strings.NewReader(string(gotData)))
+		conf config
+	)
+	err1 = d.Decode(&conf)
+	if err1 != nil {
+		return err.NewContext(err1, "source is process.GetConfig(*args.Args) err.Context")
+	}
+
+	switch ids {
+	case "*":
+		gotIds, err2 := issue.GetAllId(conf.Owner, conf.Repository, conf.Token)
+		if !err2.Nil() {
+			return err2
+		}
+		for _, elem := range gotIds {
+			i, err2 := issue.Get(conf.Owner, conf.Repository, conf.Token, elem)
+			if !err2.Nil() {
+				return err2
+			}
+			outputIssue(i)
+		}
+
+	default:
+		formattedIds, err2 := issue.FormatToIntSlice(ids.(string))
+		if !err2.Nil() {
+			return err2
+		}
+		for _, formattedId := range formattedIds {
+			i, err2 := issue.Get(conf.Owner, conf.Repository, conf.Token, formattedId)
+			if !err2.Nil() {
+				return err2
+			}
+			outputIssue(i)
+		}
+	}
+
 	return err.NoneContext()
 }

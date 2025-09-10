@@ -24,7 +24,9 @@ import (
 type Command string
 
 const (
-	CommandGet        Command = "get"
+	CommandGet       Command = "get"
+	CommandGetConfig Command = "get-config"
+
 	CommandClose      Command = "close"
 	CommandGenerateMd Command = "generate-md"
 )
@@ -81,5 +83,21 @@ func CommandArgumentsGenerateMd() (*Args, err.Context) {
 	args.Args[4] = os.Args[4] // repository
 	args.Args[5] = os.Args[5] // token
 	args.Args[6] = os.Args[6] // filename
+	return args, err.NoneContext()
+}
+
+func CommandArgumentsGetConfig() (*Args, err.Context) {
+	if len(os.Args) != 4 {
+		err2 := err.NoneContext()
+		err2.SetError(errors.New("github.com/dywoq/gh-issue/pkg/args: len(os.Args) is not 7"))
+		err2.SetMore("source is args.CommandArgumentsGenerateMd() (*Args, err.Context)")
+		return nil, err2
+	}
+	args := &Args{
+		CommandGetConfig,
+		make([]any, 4),
+	}
+	args.Args[2] = os.Args[2] // config path
+	args.Args[3] = os.Args[3] // issues ids
 	return args, err.NoneContext()
 }

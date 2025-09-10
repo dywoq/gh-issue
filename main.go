@@ -64,6 +64,9 @@ func main() {
 		args.CommandGet: func() err.Context {
 			return process.Get(a)
 		},
+		args.CommandGetConfig: func() err.Context {
+			return process.GetConfig(a)
+		},
 
 		args.CommandClose: func() err.Context {
 			choice := ""
