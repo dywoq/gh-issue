@@ -40,30 +40,7 @@ func convertIssueToMarkdown(issue *github.Issue, b *strings.Builder, startWritte
 	fmt.Fprintln(b)
 }
 
-func GenerateMd(a *args.Args) err.Context {
-	failedTypeAssertion := err.NewContext(
-		errors.New("github.com/dywoq/gh-issue: failed type assertion"),
-		"source is process.GenerateMd(*args.Args) err.Context",
-	)
-
-	ids := a.Args[2]
-	owner, ok := a.Args[3].(string)
-	if !ok {
-		return failedTypeAssertion
-	}
-	repo, ok := a.Args[4].(string)
-	if !ok {
-		return failedTypeAssertion
-	}
-	token, ok := a.Args[5].(string)
-	if !ok {
-		return failedTypeAssertion
-	}
-	filename, ok := a.Args[6].(string)
-	if !ok {
-		return failedTypeAssertion
-	}
-
+func generateMdBase(ids any, owner, repo, token, filename string) err.Context {
 	var b strings.Builder
 	switch ids {
 	case "*":
@@ -114,4 +91,29 @@ func GenerateMd(a *args.Args) err.Context {
 	}
 
 	return err.NoneContext()
+}
+
+func GenerateMd(a *args.Args) err.Context {
+	failedTypeAssertion := err.NewContext(
+		errors.New("github.com/dywoq/gh-issue: failed type assertion"),
+		"source is process.GenerateMd(*args.Args) err.Context",
+	)
+	ids := a.Args[2]
+	owner, ok := a.Args[3].(string)
+	if !ok {
+		return failedTypeAssertion
+	}
+	repo, ok := a.Args[4].(string)
+	if !ok {
+		return failedTypeAssertion
+	}
+	token, ok := a.Args[5].(string)
+	if !ok {
+		return failedTypeAssertion
+	}
+	filename, ok := a.Args[6].(string)
+	if !ok {
+		return failedTypeAssertion
+	}
+	return generateMdBase(ids, owner, repo, token, filename)
 }
