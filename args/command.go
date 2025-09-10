@@ -27,8 +27,10 @@ const (
 	CommandGet       Command = "get"
 	CommandGetConfig Command = "get-config"
 
-	CommandClose      Command = "close"
-	CommandGenerateMd Command = "generate-md"
+	CommandClose Command = "close"
+
+	CommandGenerateMd       Command = "generate-md"
+	CommandGenerateMdConfig Command = "generate-md-config"
 )
 
 func CommandArgumentsGet() (*Args, err.Context) {
@@ -86,11 +88,28 @@ func CommandArgumentsGenerateMd() (*Args, err.Context) {
 	return args, err.NoneContext()
 }
 
+func CommandArgumentsGenerateMdConfig() (*Args, err.Context) {
+	if len(os.Args) != 5 {
+		err2 := err.NoneContext()
+		err2.SetError(errors.New("github.com/dywoq/gh-issue/pkg/args: len(os.Args) is not 5"))
+		err2.SetMore("source is args.CommandArgumentsGenerateMdConfig() (*Args, err.Context)")
+		return nil, err2
+	}
+	args := &Args{
+		CommandGenerateMdConfig,
+		make([]any, 5),
+	}
+	args.Args[2] = os.Args[2] // config path
+	args.Args[3] = os.Args[3] // issues ids
+	args.Args[4] = os.Args[4] // filename
+	return args, err.NoneContext()
+}
+
 func CommandArgumentsGetConfig() (*Args, err.Context) {
 	if len(os.Args) != 4 {
 		err2 := err.NoneContext()
-		err2.SetError(errors.New("github.com/dywoq/gh-issue/pkg/args: len(os.Args) is not 7"))
-		err2.SetMore("source is args.CommandArgumentsGenerateMd() (*Args, err.Context)")
+		err2.SetError(errors.New("github.com/dywoq/gh-issue/pkg/args: len(os.Args) is not 4"))
+		err2.SetMore("source is args.CommandArgumentsGetConfig() (*Args, err.Context)")
 		return nil, err2
 	}
 	args := &Args{

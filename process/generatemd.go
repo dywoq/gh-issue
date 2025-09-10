@@ -117,3 +117,24 @@ func GenerateMd(a *args.Args) err.Context {
 	}
 	return generateMdBase(ids, owner, repo, token, filename)
 }
+
+func GenerateMdConfig(a *args.Args) err.Context {
+	failedTypeAssertion := err.NewContext(
+		errors.New("github.com/dywoq/gh-issue: failed type assertion"),
+		"source is process.GenerateMdConfig(*args.Args) err.Context",
+	)
+	ids := a.Args[2]
+	configPath, ok := a.Args[3].(string)
+	if !ok {
+		return failedTypeAssertion
+	}
+	filename, ok := a.Args[4].(string)
+	if !ok {
+		return failedTypeAssertion
+	}
+	conf, err2 := newConfig(configPath)
+	if !err2.Nil() {
+		return err2
+	}
+	return generateMdBase(ids, conf.Owner, conf.Repository, conf.Token, filename)
+}

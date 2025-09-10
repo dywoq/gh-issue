@@ -1,11 +1,8 @@
 package process
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
-	"os"
-	"strings"
 
 	"github.com/dywoq/dywoqlib/container"
 	"github.com/dywoq/dywoqlib/err"
@@ -95,17 +92,9 @@ func GetConfig(a *args.Args) err.Context {
 	if !ok {
 		return failedTypeAssertion
 	}
-	gotData, err1 := os.ReadFile(configPath)
-	if err1 != nil {
-		return err.NewContext(err1, "source is process.GetConfig(*args.Args) err.Context")
-	}
-	var (
-		d    = json.NewDecoder(strings.NewReader(string(gotData)))
-		conf config
-	)
-	err1 = d.Decode(&conf)
-	if err1 != nil {
-		return err.NewContext(err1, "source is process.GetConfig(*args.Args) err.Context")
+	conf, err2 := newConfig(configPath)
+	if !err2.Nil() {
+		return err2
 	}
 	return getBase(ids, conf.Owner, conf.Repository, conf.Token)
 }

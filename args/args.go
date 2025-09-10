@@ -43,8 +43,11 @@ func New() (*Args, err.Context) {
 
 	case string(CommandClose):
 		return CommandArgumentsClose()
+
 	case string(CommandGenerateMd):
 		return CommandArgumentsGenerateMd()
+	case string(CommandGenerateMdConfig):
+		return CommandArgumentsGenerateMdConfig()
 	}
 	return nil, err.NoneContext()
 }
