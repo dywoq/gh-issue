@@ -2,13 +2,19 @@
 
 gh-issue is a tool written in Go, allowing you to mange GitHub repository issues.
 
-## Features
-- Closing issues.
-- Outputting issues with their body in Markdown style, milestone, labels, title and assignees.
-
 ## Usage
 To use it, you need to install it:
 ```
 go install github.com/dywoq/gh-issue@latest
 ```
-To see commands, there's  [`./docs/commands.md`](./docs/commands.md) file, containing the documentation about the commands.
+
+For example, if you want to output all issues into the console, you can use this command:
+```
+gh-issue get <issues-ids> <owner> <repository> <token>
+```
+
+The output would look like this:
+![The example output](image.png)
+
+## Documentation
+To see the documentation of commands, there's [`./docs/commands.md`](./docs/commands.md) file.
