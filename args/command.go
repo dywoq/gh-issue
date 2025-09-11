@@ -133,7 +133,7 @@ func CommandArgumentsGetConfig() (*Args, err.Context) {
 		CommandGetConfig,
 		make([]any, 4),
 	}
-	args.Args[2] = os.Args[2] // config path
-	args.Args[3] = os.Args[3] // issues ids
+	args.Args[2] = os.Args[2] // issues ids
+	args.Args[3] = os.Args[3] // config path
 	return args, err.NoneContext()
 }

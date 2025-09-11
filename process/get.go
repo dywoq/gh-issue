@@ -87,8 +87,7 @@ func GetConfig(a *args.Args) err.Context {
 		errors.New("github.com/dywoq/gh-issue: failed type assertion"),
 		"source is process.GetConfig(*args.Args) err.Context",
 	)
-	ids := a.Args[2]
-	configPath, ok := a.Args[3].(string)
+	configPath, ok := a.Args[2].(string)
 	if !ok {
 		return failedTypeAssertion
 	}
@@ -96,5 +95,6 @@ func GetConfig(a *args.Args) err.Context {
 	if !err2.Nil() {
 		return err2
 	}
+	ids := a.Args[2]
 	return getBase(ids, conf.Owner, conf.Repository, conf.Token)
 }
