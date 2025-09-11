@@ -95,6 +95,6 @@ func GetConfig(a *args.Args) err.Context {
 	if !err2.Nil() {
 		return err2
 	}
-	ids := a.Args[2]
+	ids := a.Args[3]
 	return getBase(ids, conf.Owner, conf.Repository, conf.Token)
 }
